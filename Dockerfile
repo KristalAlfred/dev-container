@@ -30,21 +30,22 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get install -y \
     build-essential \
     tmux \
-    neovim \
     curl \
     git \
     python3 \
     rustfmt \
     gdb \
+    gh \
     htop \
     ncdu \
     httpie \
     tcpdump \
     strace \
+    sudo \
     lsof \
     jq \
     yq \
-    wget
+    wget 
 
 ####
 ## Install Rustup
@@ -55,6 +56,13 @@ RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
 RUN chmod +x ./dotnet-install.sh
 RUN ./dotnet-install.sh --version latest
 
+####
+## Install Neovim
+####
+RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+RUN sudo rm -rf /opt/nvim
+RUN sudo tar -C /opt -xzf nvim-linux64.tar.gz
+ENV PATH="$PATH:/opt/nvim-linux64/bin"
 
 # Keep container running
 CMD ["tail", "-f", "/dev/null"]
