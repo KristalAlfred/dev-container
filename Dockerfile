@@ -64,5 +64,13 @@ RUN sudo rm -rf /opt/nvim
 RUN sudo tar -C /opt -xzf nvim-linux64.tar.gz
 ENV PATH="$PATH:/opt/nvim-linux64/bin"
 
-# Keep container running
-CMD ["tail", "-f", "/dev/null"]
+####
+## Do runtime config
+####
+COPY gh-auth.sh /gh-auth.sh
+RUN chmod +x gh-auth.sh
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
